@@ -1,7 +1,4 @@
 class BooksController < ApplicationController
-  def new
-    @book = Book.new
-  end
 
   def create
     @book = Book.new(book_params)
@@ -16,6 +13,7 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
+    @book = Book.new
   end
 
   def show
@@ -34,13 +32,11 @@ class BooksController < ApplicationController
   end
 
   def update
-    book = Book.find(params[:id])
-    if book.update(book_params)
-      flash[:notice] = "Book was successfully update."
-      redirect_to book_path(book.id)
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      flash[:notice] = "Book was successfully updated."
+      redirect_to book_path(@book.id)
     else
-      flash.now[:alret] = "編集に失敗しました"
-      @books = Book.all
       render :edit
     end
   end
